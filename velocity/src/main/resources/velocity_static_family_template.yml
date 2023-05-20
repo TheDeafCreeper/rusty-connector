@@ -287,3 +287,77 @@ tpa:
 # `request-lifetime` is in minutes.
 #
     request-lifetime: 5
+
+kubernetes:
+############################################################
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||#
+#                       Auto-Scaling                       #
+#                                                          #
+#               ---------------------------                #
+# | RustyConnector provides direct integration into        #
+# | Kubernetes, allowing you to setup your own             #
+# | auto-scaling configurations!                           #
+#                                                          #
+#   NOTE: You will receive NO support with using and       #
+#         setting up Kubernetes systems!                   #
+#         This section of the config is for experienced    #
+#         system devs ONLY!                                #
+#                                                          #
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||#
+############################################################
+    enabled: false
+
+    #
+    # The Job config to run when we need to create new Pods.
+    # Set this name to either match the name of a job in your plugin's "kubernetes" folder
+    # or set it to something custom and we'll create a new job.yml for you to edit!
+    #
+    # You can include ".yml" at the end of the name if you'd like. It doesn't matter either way.
+    #
+    job-config: "example-job"
+
+
+    triggers:
+
+        #
+        # Creators are triggers that will cause the auto-scaler to attempt to create new Pods.
+        #
+        create:
+            when:
+                #
+                # This value is a percentage in the form of a decimal (e.g. 80% == 0.8)
+                #
+                # This trigger will fire when the player count of this family surpasses this percentage
+                # of the max capacity that this family can currently hold.
+                #
+                # Max capacity is calculated by looking at the `hard-player-cap` on all servers in this family,
+                # and adding those values together.
+                #
+                family-capacity-reaches: 0.8
+
+        #
+        # Blockers are criteria that will prevent triggers from creating new Pods.
+        #
+        block:
+            when:
+                #
+                # Block any creation attempts if we have reached the max number of allowed pods.
+                # Set this value to -1 to disable.
+                #
+                max-number-of-pods: 500
+
+        #
+        # Slayers are criteria that will kill already existing Pods.
+        #
+        slay:
+            when:
+                #
+                # This value is a percentage in the form of a decimal (e.g. 80% == 0.8)
+                #
+                # This trigger will fire when the player count of this family falls below this percentage
+                # of the max capacity that this family can currently hold.
+                #
+                # Max capacity is calculated by looking at the `hard-player-cap` on all servers in this family,
+                # and adding those values together.
+                #
+                family-capacity-falls: 0.8

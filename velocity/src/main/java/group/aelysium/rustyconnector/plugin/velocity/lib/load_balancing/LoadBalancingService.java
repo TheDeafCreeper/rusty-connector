@@ -1,4 +1,4 @@
-package group.aelysium.rustyconnector.plugin.velocity.lib.processor;
+package group.aelysium.rustyconnector.plugin.velocity.lib.load_balancing;
 
 import group.aelysium.rustyconnector.core.lib.lang_messaging.GateKey;
 import group.aelysium.rustyconnector.core.lib.model.ClockService;
@@ -7,6 +7,7 @@ import group.aelysium.rustyconnector.plugin.velocity.VelocityRustyConnector;
 import group.aelysium.rustyconnector.plugin.velocity.central.VelocityAPI;
 import group.aelysium.rustyconnector.plugin.velocity.lib.family.BaseServerFamily;
 import group.aelysium.rustyconnector.plugin.velocity.lib.lang_messaging.VelocityLang;
+import group.aelysium.rustyconnector.plugin.velocity.lib.processor.VirtualProxyProcessor;
 
 public class LoadBalancingService extends ClockService {
     public LoadBalancingService(int threads, long heartbeat) {
