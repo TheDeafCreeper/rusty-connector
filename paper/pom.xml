@@ -25,6 +25,12 @@
             <id>papermc</id>
             <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
+
+
+        <repository>
+            <id>TimoCloud-API</id>
+            <url>https://maven.timo.cloud/repository/TimoCloud-API/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -71,6 +77,14 @@
             <groupId>cloud.commandframework</groupId>
             <artifactId>cloud-paper</artifactId>
             <version>1.8.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>cloud.timo.TimoCloud</groupId>
+            <artifactId>TimoCloud-API</artifactId>
+            <version>6.4.3</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

@@ -1,10 +1,15 @@
 package group.aelysium.rustyconnector.plugin.paper.config;
 
+import cloud.timo.TimoCloud.api.TimoCloudAPI;
+import cloud.timo.TimoCloud.api.TimoCloudBukkitAPI;
+import cloud.timo.TimoCloud.api.objects.ServerObject;
+import cloud.timo.TimoCloud.bukkit.TimoCloudBukkit;
 import group.aelysium.rustyconnector.core.lib.lang_messaging.Lang;
 import group.aelysium.rustyconnector.plugin.paper.PaperRustyConnector;
 import group.aelysium.rustyconnector.plugin.paper.PluginLogger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 
 import java.io.File;
 
@@ -112,11 +117,17 @@ public class DefaultConfig extends YAML {
             throw new IllegalStateException(e.getMessage());
         }
 
-        this.server_name = this.getNode(this.data,"server.name",String.class);
-        if(this.server_name.equals("")) throw new IllegalStateException("You must provide a server name in order for RustyConnector to work!");
+        TimoCloudBukkitAPI timoAPI = TimoCloudAPI.getBukkitAPI();
+        ServerObject server = timoAPI.getThisServer();
 
-        this.server_address = this.getNode(this.data,"server.address",String.class);
-        if(this.server_address.equals("")) throw new IllegalStateException("You must provide a server address in order for RustyConnector to work! Addresses should also include a port number if necessary.");
+        this.server_name = server.getName() + "-" + ((int) Math.floor(Math.random() * 10000));
+        this.server_address = server.getIpAddress().getHostAddress() + ":" + Bukkit.getPort();
+
+//        this.server_name = this.getNode(this.data,"server.name",String.class);
+//        if(this.server_name.equals("")) throw new IllegalStateException("You must provide a server name in order for RustyConnector to work!");
+//
+//        this.server_address = this.getNode(this.data,"server.address",String.class);
+//        if(this.server_address.equals("")) throw new IllegalStateException("You must provide a server address in order for RustyConnector to work! Addresses should also include a port number if necessary.");
 
         this.server_family = this.getNode(this.data,"server.family",String.class);
         if(this.server_family.equals("")) throw new IllegalStateException("You must provide a family name in order for RustyConnector to work! The family name must also exist on your Velocity configuration.");

@@ -11,3 +11,6 @@ commands:
         permission: rustyconnector.thisPermissionWillNeverWork
 
 folia-supported: true
+
+depend:
+    - TimoCloud
