@@ -43,14 +43,15 @@ public class RedisSubscriber {
 
     /**
      * Dispose of all Redis subscriptions and close all open connections.
-     * This RedisIO becomes worthless after this is used.
+     * This RedisSubscriber becomes worthless after this is used.
      */
     public void shutdown() {
         this.lock.countDown();
         this.lock.countDown();
         this.lock.countDown();
+
         try {
-            this.client.shutdown(2, 2, TimeUnit.SECONDS);
+            this.client.shutdownAsync(2, 2, TimeUnit.SECONDS);
         } catch (Exception ignore) {}
     }
 
@@ -69,17 +70,7 @@ public class RedisSubscriber {
         }
     }
 
-    class RedisSubscriberListener extends RedisConnectionStateAdapter {
-
-        @Override
-        public void onRedisConnected(RedisChannelHandler<?, ?> connection, SocketAddress socketAddress) {
-            System.out.println("sub-Redis connected!");
-        }
-        @Override
-        public void onRedisDisconnected(RedisChannelHandler<?, ?> connection) {
-            System.out.println("sub-Redis closed!");
-        }
-
+    static class RedisSubscriberListener extends RedisConnectionStateAdapter {
         @Override
         public void onRedisExceptionCaught(RedisChannelHandler<?, ?> connection, Throwable cause) {
             cause.printStackTrace();

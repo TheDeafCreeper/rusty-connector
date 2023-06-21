@@ -5,8 +5,10 @@ import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.player.KickedFromServerEvent;
 import com.velocitypowered.api.proxy.Player;
+import group.aelysium.rustyconnector.core.lib.exception.NoOutputException;
 import group.aelysium.rustyconnector.plugin.velocity.VelocityRustyConnector;
 import group.aelysium.rustyconnector.plugin.velocity.central.VelocityAPI;
+import group.aelysium.rustyconnector.plugin.velocity.lib.family.ScalarServerFamily;
 import group.aelysium.rustyconnector.plugin.velocity.lib.module.PlayerServer;
 import group.aelysium.rustyconnector.plugin.velocity.lib.webhook.WebhookAlertFlag;
 import group.aelysium.rustyconnector.plugin.velocity.lib.webhook.WebhookEventManager;
@@ -23,22 +25,30 @@ public class OnPlayerKicked {
         Player player = event.getPlayer();
 
         return EventTask.async(() -> {
+            boolean isFromRootFamily = false;
+
             try {
                 if (!player.getCurrentServer().isPresent()) throw new NoOutputException();
 
                 PlayerServer oldServer = api.getVirtualProcessor().findServer(player.getCurrentServer().orElseThrow().getServerInfo());
-                if (oldServer != null) {
-                    oldServer.playerLeft();
+                if (oldServer == null) throw new NoOutputException();
 
-                    WebhookEventManager.fire(WebhookAlertFlag.PLAYER_LEAVE, oldServer.getFamilyName(), DiscordWebhookMessage.PROXY__PLAYER_LEAVE_FAMILY.build(player, oldServer));
-                    WebhookEventManager.fire(WebhookAlertFlag.PLAYER_LEAVE_FAMILY, oldServer.getFamilyName(), DiscordWebhookMessage.FAMILY__PLAYER_LEAVE.build(player, oldServer));
-                }
+                oldServer.playerLeft();
+
+                WebhookEventManager.fire(WebhookAlertFlag.PLAYER_LEAVE, oldServer.getFamilyName(), DiscordWebhookMessage.PROXY__PLAYER_LEAVE_FAMILY.build(player, oldServer));
+                WebhookEventManager.fire(WebhookAlertFlag.PLAYER_LEAVE_FAMILY, oldServer.getFamilyName(), DiscordWebhookMessage.FAMILY__PLAYER_LEAVE.build(player, oldServer));
+
+                isFromRootFamily = oldServer.getFamily() == api.getVirtualProcessor().getRootFamily();
             } catch (Exception ignore) {}
 
             try {
                 if (!api.getVirtualProcessor().catchDisconnectingPlayers) throw new NoOutputException();
 
-                PlayerServer newServer = api.getVirtualProcessor().getRootFamily().fetchAny(player);
+                ScalarServerFamily rootFamily = api.getVirtualProcessor().getRootFamily();
+                if(rootFamily.getRegisteredServers().isEmpty()) throw new RuntimeException("There are no available servers for you to connect to!");
+                if(isFromRootFamily) throw new NoOutputException();
+
+                PlayerServer newServer = rootFamily.fetchAny(player);
                 if(newServer == null) throw new RuntimeException("Server closed.");
 
                 try {
