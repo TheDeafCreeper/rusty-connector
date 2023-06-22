@@ -3,6 +3,7 @@ package group.aelysium.rustyconnector.plugin.velocity.lib.load_balancing;
 import group.aelysium.rustyconnector.core.lib.util.QuickSort;
 import group.aelysium.rustyconnector.core.lib.util.SingleSort;
 import group.aelysium.rustyconnector.core.lib.util.WeightedQuickSort;
+import group.aelysium.rustyconnector.plugin.velocity.VelocityRustyConnector;
 import group.aelysium.rustyconnector.plugin.velocity.lib.module.PlayerServer;
 
 import java.util.ArrayList;
@@ -15,9 +16,9 @@ public class MostConnection extends LoadBalancer {
     public void iterate() {
         try {
             PlayerServer thisItem = this.items.get(this.index);
-            PlayerServer theNextItem = this.items.get(this.index + 1);
 
-            if(thisItem.getPlayerCount() >= theNextItem.getPlayerCount()) this.index++;
+            if (thisItem.getPlayerCount() + 1 >= thisItem.getHardPlayerCap()) this.index++;
+            if(this.index >= this.items.size()) this.index = 0;
         } catch (IndexOutOfBoundsException ignore) {}
     }
 
