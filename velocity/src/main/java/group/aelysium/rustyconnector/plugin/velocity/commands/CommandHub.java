@@ -15,7 +15,6 @@ import group.aelysium.rustyconnector.plugin.velocity.lib.module.PlayerServer;
 import group.aelysium.rustyconnector.plugin.velocity.lib.processor.VirtualProxyProcessor;
 
 public class CommandHub {
-
     public static BrigadierCommand create() {
         VelocityAPI api = VelocityRustyConnector.getAPI();
         PluginLogger logger = api.getLogger();
