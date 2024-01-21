@@ -1,6 +1,5 @@
 package group.aelysium.rustyconnector.plugin.velocity.lib.server;
 
-import com.sun.jdi.request.DuplicateRequestException;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.server.ServerInfo;
 import group.aelysium.rustyconnector.core.lib.lang.log_gate.GateKey;
@@ -109,7 +108,7 @@ public class ServerService extends Service {
             if(logger.loggerGate().check(GateKey.REGISTRATION_ATTEMPT))
                 VelocityLang.REGISTRATION_REQUEST.send(logger, server.serverInfo(), family.name());
 
-            if(this.contains(server.serverInfo())) throw new DuplicateRequestException("Server ["+server.serverInfo().getName()+"]("+server.serverInfo().getAddress()+":"+server.serverInfo().getAddress().getPort()+") can't be registered twice!");
+            if(this.contains(server.serverInfo())) throw new RuntimeException("Server ["+server.serverInfo().getName()+"]("+server.serverInfo().getAddress()+":"+server.serverInfo().getAddress().getPort()+") can't be registered twice!");
 
             RegisteredServer registeredServer = api.registerServer(server.serverInfo());
             if(registeredServer == null) throw new NullPointerException("Unable to register the server to the proxy.");

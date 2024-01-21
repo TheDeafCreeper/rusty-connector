@@ -1,6 +1,5 @@
 package group.aelysium.rustyconnector.plugin.velocity.lib.server;
 
-import com.sun.jdi.request.DuplicateRequestException;
 import com.velocitypowered.api.event.player.PlayerChooseInitialServerEvent;
 import com.velocitypowered.api.proxy.ConnectionRequestBuilder;
 import com.velocitypowered.api.proxy.Player;
@@ -93,7 +92,7 @@ public class PlayerServer implements group.aelysium.rustyconnector.core.lib.mode
     /**
      * Registers a server to the proxy.
      * @param familyName The family to associate the server with.
-     * @throws DuplicateRequestException If the server has already been registered to the proxy.
+     * @throws RuntimeException If the server has already been registered to the proxy.
      * @throws InvalidAlgorithmParameterException If the family doesn't exist.
      */
     public void register(String familyName) throws Exception {
