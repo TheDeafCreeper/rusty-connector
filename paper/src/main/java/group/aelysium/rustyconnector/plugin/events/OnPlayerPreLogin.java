@@ -1,4 +1,4 @@
-package group.aelysium.rustyconnector.plugin.paper.events;
+package group.aelysium.rustyconnector.plugin.events;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

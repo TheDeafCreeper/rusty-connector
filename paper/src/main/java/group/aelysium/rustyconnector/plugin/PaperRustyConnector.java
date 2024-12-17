@@ -1,4 +1,4 @@
-package group.aelysium.rustyconnector.plugin.paper;
+package group.aelysium.rustyconnector.plugin;
 
 import group.aelysium.declarative_yaml.DeclarativeYAML;
 import group.aelysium.rustyconnector.RC;

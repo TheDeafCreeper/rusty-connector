@@ -39,9 +39,9 @@ subprojects {
     apply plugin: 'io.github.goooler.shadow'
 
     dependencies {
-//        implementation "group.aelysium:rustyconnector-core:0.9.0"
+        implementation "group.aelysium:rustyconnector-core:0.9.0"
         implementation "group.aelysium:declarative-yaml:0.1.6"
-        implementation files("../libs/rustyconnector-core-0.9.0.jar")
+//        implementation files("../libs/rustyconnector-core-0.9.0.jar")
 //        implementation files("../libs/declarative-yaml-0.1.6.jar")
 
     }
@@ -58,7 +58,8 @@ dependencies {
     modules project(':serverCommon')
 
     modules project(':paper')
-    modules project(':fabric')
+    modules project(':minestom')
+    //modules project(':fabric')
 
     modules project(':velocity')
 }
@@ -69,7 +70,8 @@ tasks.named('jar').configure {
 
 task copyJars(type: Copy) {
     from project(':paper').shadowJar
-    from project(':fabric').shadowJar
+    from project(':minestom').shadowJar
+    //from project(':fabric').shadowJar
     from project(':velocity').shadowJar
     into "$buildDir/libs"
     rename { String fileName ->
