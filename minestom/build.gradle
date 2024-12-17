@@ -10,6 +10,12 @@ dependencies {
     implementation project(path: ':common')
 }
 
+jar {
+    manifest {
+        attributes["Main-Class"] = "group.aelysium.rustyconnector.minestom.Main" // Change this to your main class
+    }
+}
+
 // If ever strange behaviour check the docs for reference: https://imperceptiblethoughts.com/shadow/
 shadowJar {
     archiveBaseName.set('rustyconnector-minestom')
@@ -40,20 +46,4 @@ processResources {
     def props = ['version': plugin_version, 'config_version': config_version, 'magic_link_protocol_version': magic_link_protocol_version]
     inputs.properties props
     filteringCharset 'UTF-8'
-}
-
-tasks {
-    jar {
-        manifest {
-            attributes["Main-Class"] = "group.aelysium.rustyconnector.minestom.Main" // Change this to your main class
-        }
-    }
-
-    build {
-        dependsOn(shadowJar)
-    }
-    shadowJar {
-        mergeServiceFiles()
-        archiveClassifier.set("") // Prevent the -all suffix on the shadowjar file.
-    }
 }

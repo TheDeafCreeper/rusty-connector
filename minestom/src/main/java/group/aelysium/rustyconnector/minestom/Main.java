@@ -30,7 +30,7 @@ public class Main {
             player.setRespawnPoint(new Pos(0, 42, 0));
         });
 
-        // Start the server on port 25565
+        // Start the server on port 25568
         minecraftServer.start("0.0.0.0", 25568);
         System.out.println("Minestom Started!");
 
